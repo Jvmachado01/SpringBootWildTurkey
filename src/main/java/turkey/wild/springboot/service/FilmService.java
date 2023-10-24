@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import turkey.wild.springboot.domain.Film;
+import turkey.wild.springboot.exception.BadRequestException;
 import turkey.wild.springboot.mapper.FilmMapper;
 import turkey.wild.springboot.repository.FilmRepository;
 import turkey.wild.springboot.requests.FilmPostRequestBody;
@@ -28,7 +29,7 @@ public class FilmService {
 
     public Film findByIdOrThrowBadRequestException(long id) {
         return filmRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Film not found"));
+                .orElseThrow(() -> new BadRequestException("Film not found"));
 
     }
 
