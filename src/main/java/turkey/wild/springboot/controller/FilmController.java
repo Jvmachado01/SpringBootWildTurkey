@@ -35,6 +35,12 @@ public class FilmController {
         return ResponseEntity.ok(filmService.findByIdOrThrowBadRequestException(id));
     }
 
+    // http://localhost:8080/films/find?name=Casino  <= exemplo.
+    @GetMapping(path = "/find") // request param
+    public ResponseEntity<List<Film>> findByName(@RequestParam String name) {
+        return ResponseEntity.ok(filmService.findByName(name));
+    }
+
     @PostMapping
     public ResponseEntity<Film> save(@RequestBody FilmPostRequestBody filmPostRequestBody) {
         return new ResponseEntity<>(filmService.save(filmPostRequestBody), HttpStatus.CREATED);

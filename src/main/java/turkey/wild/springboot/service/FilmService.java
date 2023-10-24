@@ -22,6 +22,10 @@ public class FilmService {
         return filmRepository.findAll();
     }
 
+    public List<Film> findByName(String name) {
+        return filmRepository.findByName(name);
+    }
+
     public Film findByIdOrThrowBadRequestException(long id) {
         return filmRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Film not found"));
