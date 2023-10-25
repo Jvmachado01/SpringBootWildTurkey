@@ -1,5 +1,6 @@
 package turkey.wild.springboot.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,8 @@ public class FilmService {
 
     }
 
-    public Film save(FilmPostRequestBody filmPostRequestBody) {
+    @Transactional // For rollback - @Transactional(rollbackOn = Exception.class) for checked.
+    public Film save(FilmPostRequestBody filmPostRequestBody)  {
         return filmRepository.save(FilmMapper.INSTANCE.toFilm(filmPostRequestBody));
     }
 
