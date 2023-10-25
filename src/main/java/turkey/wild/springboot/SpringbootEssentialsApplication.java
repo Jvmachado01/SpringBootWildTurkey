@@ -3,7 +3,7 @@ package turkey.wild.springboot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// BRANCH FIVE ========================> 5 <=================/
+// BRANCH SIX ========================> 6 <=================/
 
 @SpringBootApplication
 public class  SpringbootEssentialsApplication {
@@ -13,8 +13,3 @@ public class  SpringbootEssentialsApplication {
 	}
 
 }
-
-<<<<<<< HEAD
-
-=======
->>>>>>> five
