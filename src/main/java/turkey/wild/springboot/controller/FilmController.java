@@ -1,5 +1,6 @@
 package turkey.wild.springboot.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,10 @@ public class FilmController {
         return ResponseEntity.ok(filmService.findByName(name));
     }
 
+
     @PostMapping
-    public ResponseEntity<Film> save(@RequestBody FilmPostRequestBody filmPostRequestBody) {
+    // @Valid indicates that Srping will automatically validate the field
+    public ResponseEntity<Film> save(@RequestBody @Valid FilmPostRequestBody filmPostRequestBody) {
         return new ResponseEntity<>(filmService.save(filmPostRequestBody), HttpStatus.CREATED);
     }
 
