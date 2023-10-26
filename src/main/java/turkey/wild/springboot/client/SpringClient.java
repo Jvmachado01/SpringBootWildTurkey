@@ -1,9 +1,14 @@
 package turkey.wild.springboot.client;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import turkey.wild.springboot.domain.Film;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Log4j2
 public class SpringClient {
@@ -14,5 +19,22 @@ public class SpringClient {
         // Take only the object id 3 Film
         Film object = new RestTemplate().getForObject("http://localhost:8080/films/{id}", Film.class, 3);
         log.info(object);
+
+        // Let’s say I want to automatically map the data, but now the data is inside a list.
+        // We can achieve the goal using the Array notation, where we will have an Array with type Film Object
+        Film[] films = new RestTemplate().getForObject("http://localhost:8080/films/all", Film[].class);
+        log.info(Arrays.toString(films));
+
+        // to return a lista of the Film Object
+        ResponseEntity<List<Film>> exchange = new RestTemplate().exchange(
+                "http://localhost:8080/films/all",
+                HttpMethod.GET,
+                null, // return null becouse it is Get
+                // To make sure that every time you are making the exchange will be a Film list
+                new ParameterizedTypeReference<List<Film>>() {
+                });
+        log.info(exchange.getBody()); // Return body of the ResponseEntity
+
+
     }
 }

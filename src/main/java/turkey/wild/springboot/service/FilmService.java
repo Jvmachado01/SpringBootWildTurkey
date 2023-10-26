@@ -25,6 +25,10 @@ public class FilmService {
         return filmRepository.findAll(pageable);
     }
 
+    public List<Film> listAllNonPageable() {
+        return filmRepository.findAll();
+    }
+
     public List<Film> findByName(String name) {
         return filmRepository.findByName(name);
     }
@@ -36,7 +40,7 @@ public class FilmService {
     }
 
     @Transactional // For rollback - @Transactional(rollbackOn = Exception.class) for checked.
-    public Film save(FilmPostRequestBody filmPostRequestBody)  {
+    public Film save(FilmPostRequestBody filmPostRequestBody) {
         return filmRepository.save(FilmMapper.INSTANCE.toFilm(filmPostRequestBody));
     }
 
@@ -50,4 +54,6 @@ public class FilmService {
         film.setId(savedFilm.getId());
         filmRepository.save(film);
     }
+
+
 }

@@ -29,8 +29,14 @@ public class FilmController {
     // Page generic for pagination
     public ResponseEntity<Page<Film>> list(Pageable pageable) {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
-//        return new ResponseEntity<>(filmService.listAll(), HttpStatus.OK);
         return ResponseEntity.ok(filmService.listAll(pageable));
+
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<Film>> listAll() {
+        log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
+        return ResponseEntity.ok(filmService.listAllNonPageable());
 
     }
 
