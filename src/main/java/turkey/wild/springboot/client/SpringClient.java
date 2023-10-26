@@ -40,12 +40,30 @@ public class SpringClient {
 
         Film indiana = Film.builder().name("Indiana").build();
         ResponseEntity<Film> indianaSaved = new RestTemplate().exchange(
-                "http://localhost:8080/films", HttpMethod.POST,
+                "http://localhost:8080/films",
+                HttpMethod.POST,
                 // Send HeaderHttp within the HttpEntity
                 new HttpEntity<>(indiana, createJsonHeader()),
                 Film.class);
         log.info("Saved filme: {}", indianaSaved);
 
+        Film filmToBeUpdated = indianaSaved.getBody();
+        filmToBeUpdated.setName("Indiana Jones");
+
+        ResponseEntity<Void> indianaJonesUpdated = new RestTemplate().exchange(
+                "http://localhost:8080/films",
+                HttpMethod.PUT,
+                new HttpEntity<>(filmToBeUpdated, createJsonHeader()),
+                Void.class);
+        log.info(indianaJonesUpdated);
+
+        ResponseEntity<Void> indianaJonesDeleted = new RestTemplate().exchange(
+                "http://localhost:8080/films/{id}",
+                HttpMethod.DELETE,
+                null,
+                Void.class,
+                filmToBeUpdated.getId());
+        log.info(indianaJonesDeleted);
     }
 
     private static HttpHeaders createJsonHeader() {
