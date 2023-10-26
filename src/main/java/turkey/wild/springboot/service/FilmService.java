@@ -2,9 +2,9 @@ package turkey.wild.springboot.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import turkey.wild.springboot.domain.Film;
 import turkey.wild.springboot.exception.BadRequestException;
 import turkey.wild.springboot.mapper.FilmMapper;
@@ -20,8 +20,9 @@ public class FilmService {
 
     private final FilmRepository filmRepository;
 
-    public List<Film> listAll() {
-        return filmRepository.findAll();
+    // Page generic for pagination
+    public Page<Film> listAll(Pageable pageable) {
+        return filmRepository.findAll(pageable);
     }
 
     public List<Film> findByName(String name) {

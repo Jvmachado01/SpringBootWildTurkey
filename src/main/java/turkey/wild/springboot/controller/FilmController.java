@@ -3,6 +3,8 @@ package turkey.wild.springboot.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +26,11 @@ public class FilmController {
     private final FilmService filmService; // final for injection of dependencies
 
     @GetMapping
-    public ResponseEntity<List<Film>> list() {
+    // Page generic for pagination
+    public ResponseEntity<Page<Film>> list(Pageable pageable) {
         log.info(dateUtil.formatLocalDateTimeToDatabaseStyle(LocalDateTime.now()));
 //        return new ResponseEntity<>(filmService.listAll(), HttpStatus.OK);
-        return ResponseEntity.ok(filmService.listAll());
+        return ResponseEntity.ok(filmService.listAll(pageable));
 
     }
 
