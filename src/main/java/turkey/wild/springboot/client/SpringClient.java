@@ -2,8 +2,7 @@ package turkey.wild.springboot.client;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import turkey.wild.springboot.domain.Film;
 
@@ -35,6 +34,23 @@ public class SpringClient {
                 });
         log.info(exchange.getBody()); // Return body of the ResponseEntity
 
+//        Film rocky = Film.builder().name("Rocky").build();
+//        Film rockySaved = new RestTemplate().postForObject("http://localhost:8080/films", rocky, Film.class);
+//        log.info("Saved filme: {}", rockySaved);
 
+        Film indiana = Film.builder().name("Indiana").build();
+        ResponseEntity<Film> indianaSaved = new RestTemplate().exchange(
+                "http://localhost:8080/films", HttpMethod.POST,
+                // Send HeaderHttp within the HttpEntity
+                new HttpEntity<>(indiana, createJsonHeader()),
+                Film.class);
+        log.info("Saved filme: {}", indianaSaved);
+
+    }
+
+    private static HttpHeaders createJsonHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return httpHeaders;
     }
 }
