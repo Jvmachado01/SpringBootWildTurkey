@@ -17,5 +17,6 @@ public class Film {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty(message = "The film name cannot be empty")
     private String name;
 }

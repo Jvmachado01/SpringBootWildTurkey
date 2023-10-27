@@ -14,7 +14,7 @@ import turkey.wild.springboot.requests.FilmPutRequestBody;
 
 import java.util.List;
 
-@Service // to be a SpringBin
+@Service // to be a Spring bean
 @RequiredArgsConstructor // for Spring make dependencies injection
 public class FilmService {
 
