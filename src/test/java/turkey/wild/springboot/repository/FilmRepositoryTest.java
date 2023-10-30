@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import turkey.wild.springboot.domain.Film;
+import turkey.wild.springboot.util.FilmCreator;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +37,7 @@ class FilmRepositoryTest {
     @Test
     @DisplayName("Save persists film when sucessful")
     void save_PersistsFilm_WhenSucessful() {
-        Film filmToBeSaved = createFilm();
+        Film filmToBeSaved = FilmCreator.createFilmToBeSaved();
         Film filmSaved = this.filmRepository.save(filmToBeSaved);
 
         Assertions.assertThat(filmSaved).isNotNull();
@@ -47,7 +48,7 @@ class FilmRepositoryTest {
     @Test
     @DisplayName("Save updates film when sucessful")
     void save_UpdatesFilm_WhenSucessful() {
-        Film filmToBeSaved = createFilm();
+        Film filmToBeSaved = FilmCreator.createFilmToBeSaved();
         Film filmSaved = this.filmRepository.save(filmToBeSaved);
         filmSaved.setName("Casino 2");
         Film filmUpdated = this.filmRepository.save(filmSaved);
@@ -60,7 +61,7 @@ class FilmRepositoryTest {
     @Test
     @DisplayName("Delete removes film when sucessful")
     void delete_RemovesFilm_WhenSucessful() {
-        Film filmToBeSaved = createFilm();
+        Film filmToBeSaved = FilmCreator.createFilmToBeSaved();
         Film filmSaved = this.filmRepository.save(filmToBeSaved);
         this.filmRepository.delete(filmSaved);
         Optional<Film> filmOptional = this.filmRepository.findById(filmSaved.getId());
@@ -71,7 +72,7 @@ class FilmRepositoryTest {
     @Test
     @DisplayName("Find by name returns list of film when sucessful")
     void findByName_ReturnsListOfFilm_WhenSucessful() {
-        Film filmToBeSaved = createFilm();
+        Film filmToBeSaved = FilmCreator.createFilmToBeSaved();
         Film filmSaved = this.filmRepository.save(filmToBeSaved);
         String name = filmSaved.getName();
         List<Film> films = this.filmRepository.findByName(name);
@@ -97,10 +98,6 @@ class FilmRepositoryTest {
         Assertions.assertThatExceptionOfType(ConstraintViolationException.class)
                 .isThrownBy(() -> this.filmRepository.save(film))
                 .withMessageContaining("The film name cannot be empty");
-    }
-
-    private Film createFilm() {
-        return Film.builder().name("Casino").build();
     }
 
 }
