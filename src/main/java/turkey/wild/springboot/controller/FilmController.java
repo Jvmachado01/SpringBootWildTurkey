@@ -7,6 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import turkey.wild.springboot.domain.Film;
 import turkey.wild.springboot.requests.FilmPostRequestBody;
@@ -44,6 +47,14 @@ public class FilmController {
         return ResponseEntity.ok(filmService.findByIdOrThrowBadRequestException(id));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping(path = "by-id/{id}") // url param
+    public ResponseEntity<Film> findByIdAuthenticationPrincipal(@PathVariable long id,
+                                                                @AuthenticationPrincipal UserDetails userDetails) {
+        log.info(userDetails);
+        return ResponseEntity.ok(filmService.findByIdOrThrowBadRequestException(id));
+    }
+
     // http://localhost:8080/films/find?name=Casino  <= exemplo.
     @GetMapping(path = "/find") // request param
     public ResponseEntity<List<Film>> findByName(@RequestParam String name) {
@@ -51,6 +62,7 @@ public class FilmController {
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     // @Valid indicates that Srping will automatically validate the field
     public ResponseEntity<Film> save(@RequestBody @Valid FilmPostRequestBody filmPostRequestBody) {
